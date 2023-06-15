@@ -1,74 +1,530 @@
-/* $head-font: "Kimberley", Kimberley;
-$theme-code-inline: #121212;
-$theme-blue: #00acc1;
-$theme-red: #e74c3c;
-$theme-green: #1abc9c;
-$theme-orange: #e67e22;
-
-$font-white:  lighten(#000000, 99%);
-$theme-white: lighten(#000000, 5%);
-$theme-black: #263238; //lighten(#000000, 10%);
-
-
-$theme-menu-background: #263238;
-
-$bg-gray: #263238;
-.content-wrap {
-  background: $theme-black
-}
-
-$theme-mask-white: transparentize($theme-white, 0.9);
-$theme-mask-white2: transparentize($theme-white, 0.7);
-
-$theme-mask-black: transparentize($theme-black, 0.9);
-$fontcol:lighten(#404040, 60%);
-
-$theme-menu-width-sm: 100%;
-
+// stylelint-disable selector-max-type
 .markdown-body {
-  .d-lang {
-    position: relative;
-
-    &:after {
-
-      color: $fontcol;
-    }
-  }
-}
-body {
-  color: $fontcol;
-  background-color: $theme-black;
-}
-:root {
-  body {
-    background-color: $theme-black;
-    color: $fontcol;
-  }
-}
-
-$theme-code: lighten($fontcol, 4%);
-$theme-code-background: $theme-black;
-$theme-code-inline: lighten($fontcol, 4%);
-$theme-code-inline-background: lighten($theme-black, 6%);
-
-.markdown-body {
-  .highlight pre,
-  pre {
-    background-color: $theme-code-background;
-  }  // improved
+  // Inline code snippets
   code,
   tt {
-    color: $theme-code-inline;
-    border-color: transparent;
-    background-color: $theme-code-inline-background;
+    // stylelint-disable-next-line primer/spacing
+    padding: 0.2em 0.4em;
+    margin: 0;
+    // stylelint-disable-next-line primer/typography
+    font-size: 85%;
+    white-space: break-spaces; // keeps rendering spaces, but breaks them onto multiple lines
+    background-color: var(--color-neutral-muted);
+    border-radius: $border-radius;
+
+    br { display: none; }
+  }
+
+  del code { text-decoration: inherit; }
+
+  samp {
+    // stylelint-disable-next-line primer/typography
+    font-size: 85%;
   }
 
   pre {
+    word-wrap: normal;
+
+    code {
+      // stylelint-disable-next-line primer/typography
+      font-size: 100%;
+    }
+
+    // Code tags within code blocks (<pre>s)
     > code {
-      color: darken($theme-code, 50%);
+      padding: 0;
+      margin: 0;
+      word-break: normal;
+      white-space: pre;
+      background: transparent;
+      border: 0;
     }
   }
+
+  .highlight {
+    margin-bottom: $spacer-3;
+
+    pre {
+      margin-bottom: 0;
+      word-break: normal;
+    }
+  }
+
+  .highlight pre,
+  pre {
+    padding: $spacer-3;
+    overflow: auto;
+    // stylelint-disable-next-line primer/typography
+    font-size: 85%;
+    // stylelint-disable-next-line primer/typography
+    line-height: 1.45;
+    color: var(--color-fg-default);
+    background-color: var(--color-canvas-subtle);
+    border-radius: $border-radius;
+  }
+
+  pre code,
+  pre tt {
+    display: inline;
+    max-width: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
   
+  [data-footnote-ref] {
+    &::before {
+      content: '[';
+    }
+
+    &::after {
+      content: ']';
+    }
+  }
+
+  .footnotes {
+    font-size: $h6-size;
+    color: var(--color-fg-muted);
+    border-top: $border;
+
+    ol {
+      padding-left: $spacer-3;
+
+      ul {
+        display: inline-block;
+        padding-left: $spacer-3;
+        margin-top: $spacer-3;
+      }
+    }
+
+    li {
+      position: relative;
+    }
+
+    li:target::before {
+      position: absolute;
+      top: -$spacer-2;
+      right: -$spacer-2;
+      bottom: -$spacer-2;
+      left: -$spacer-4;
+      pointer-events: none;
+      content: '';
+      // stylelint-disable-next-line primer/borders
+      border: 2px $border-style var(--color-accent-emphasis);
+      border-radius: $border-radius;
+    }
+
+    li:target {
+      color: var(--color-fg-default);
+    }
+
+    .data-footnote-backref g-emoji {
+      font-family: monospace;
+    }
+  }
+  // Headings
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: $spacer-4;
+    margin-bottom: $spacer-3;
+    font-weight: $font-weight-bold;
+    line-height: $lh-condensed;
+
+    .octicon-link {
+      color: var(--color-fg-default);
+      vertical-align: middle;
+      visibility: hidden;
+    }
+
+    &:hover .anchor {
+      text-decoration: none;
+
+      .octicon-link {
+        visibility: visible;
+      }
+    }
+
+    tt,
+    code {
+      // stylelint-disable-next-line primer/spacing
+      padding: 0 0.2em;
+      font-size: inherit;
+    }
+  }
+
+  h1 {
+    // stylelint-disable-next-line primer/spacing
+    padding-bottom: 0.3em;
+    // stylelint-disable-next-line primer/typography
+    font-size: 2em;
+    border-bottom: $border-width $border-style var(--color-border-muted);
+  }
+
+  h2 {
+    // stylelint-disable-next-line primer/spacing
+    padding-bottom: 0.3em;
+    // stylelint-disable-next-line primer/typography
+    font-size: 1.5em;
+    border-bottom: $border-width $border-style var(--color-border-muted);
+  }
+
+  h3 {
+    // stylelint-disable-next-line primer/typography
+    font-size: 1.25em;
+  }
+
+  h4 {
+    font-size: 1em;
+  }
+
+  h5 {
+    // stylelint-disable-next-line primer/typography
+    font-size: 0.875em;
+  }
+
+  h6 {
+    // stylelint-disable-next-line primer/typography
+    font-size: 0.85em;
+    color: var(--color-fg-muted);
+  }
+
+  summary {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      display: inline-block;
+
+      .anchor {
+        // stylelint-disable-next-line primer/spacing
+        margin-left: -40px;
+      }
+    }
+
+    h1,
+    h2 {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+  }
+  // Images & Stuff
+  img {
+    max-width: 100%;
+    // because we put padding on the images to hide header lines, and some people
+    // specify the width of their images in their markdown.
+    box-sizing: content-box;
+    background-color: var(--color-canvas-default);
+
+    &[align='right'] {
+      // stylelint-disable-next-line primer/spacing
+      padding-left: 20px;
+    }
+
+    &[align='left'] {
+      // stylelint-disable-next-line primer/spacing
+      padding-right: 20px;
+    }
+  }
+
+  .emoji {
+    max-width: none;
+    vertical-align: text-top;
+    // Override `<img>` styles so Emojis don't clash with zebra striping in our tables
+    background-color: transparent;
+  }
+
+  // Gollum Image Tags
+
+  // Framed
+  span.frame {
+    display: block;
+    overflow: hidden;
+
+    > span {
+      display: block;
+      float: left;
+      width: auto;
+      // stylelint-disable-next-line primer/spacing
+      padding: 7px;
+      // stylelint-disable-next-line primer/spacing
+      margin: 13px 0 0;
+      overflow: hidden;
+      border: $border-width $border-style var(--color-border-default);
+    }
+
+    span img {
+      display: block;
+      float: left;
+    }
+
+    span span {
+      display: block;
+      // stylelint-disable-next-line primer/spacing
+      padding: 5px 0 0;
+      clear: both;
+      color: var(--color-fg-default);
+    }
+  }
+
+  span.align-center {
+    display: block;
+    overflow: hidden;
+    clear: both;
+
+    > span {
+      display: block;
+      // stylelint-disable-next-line primer/spacing
+      margin: 13px auto 0;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    span img {
+      margin: 0 auto;
+      text-align: center;
+    }
+  }
+
+  span.align-right {
+    display: block;
+    overflow: hidden;
+    clear: both;
+
+    > span {
+      display: block;
+      // stylelint-disable-next-line primer/spacing
+      margin: 13px 0 0;
+      overflow: hidden;
+      text-align: right;
+    }
+
+    span img {
+      margin: 0;
+      text-align: right;
+    }
+  }
+
+  span.float-left {
+    display: block;
+    float: left;
+    // stylelint-disable-next-line primer/spacing
+    margin-right: 13px;
+    overflow: hidden;
+
+    span {
+      // stylelint-disable-next-line primer/spacing
+      margin: 13px 0 0;
+    }
+  }
+
+  span.float-right {
+    display: block;
+    float: right;
+    // stylelint-disable-next-line primer/spacing
+    margin-left: 13px;
+    overflow: hidden;
+
+    > span {
+      display: block;
+      // stylelint-disable-next-line primer/spacing
+      margin: 13px auto 0;
+      overflow: hidden;
+      text-align: right;
+    }
+  }
+
+  // Lists, Blockquotes & Such
+  ul,
+  ol {
+    // stylelint-disable-next-line primer/spacing
+    padding-left: 2em;
+
+    &.no-list {
+      padding: 0;
+      list-style-type: none;
+    }
+  }
+
+  ol[type='a s'] {
+    list-style-type: lower-alpha;
+  }
+
+  ol[type='A s'] {
+    list-style-type: upper-alpha;
+  }
+
+  ol[type='i s'] {
+    list-style-type: lower-roman;
+  }
+
+  ol[type='I s'] {
+    list-style-type: upper-roman;
+  }
+
+  ol[type='1'] {
+    list-style-type: decimal;
+  }
+
+  // Reset <ol> style to decimal (HTML default) specifically for AsciiDoc
+  // <div><ol> construction (doesn't affect MarkDown)
+  div > ol:not([type]) {
+    list-style-type: decimal;
+  }
+
+  // Did someone complain about list spacing? Encourage them
+  // to create the spacing with their markdown formatting.
+  // List behavior should be controled by the markup, not the css.
+  //
+  // For lists with padding between items, use blank
+  // lines between items. This will generate paragraphs with
+  // padding to space things out.
+  //
+  // - item
+  //
+  // - item
+  //
+  // - item
+  //
+  // For list without padding, don't use blank lines.
+  //
+  // - item
+  // - item
+  // - item
+  //
+  // Modifying the css to emulate these behaviors merely brakes
+  // one case in the process of solving another. Don't change
+  // this unless it's really really a bug.
+  ul ul,
+  ul ol,
+  ol ol,
+  ol ul {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  li > p {
+    margin-top: $spacer-3;
+  }
+
+  li + li {
+    margin-top: $em-spacer-3;
+  }
+
+  dl {
+    padding: 0;
+
+    dt {
+      padding: 0;
+      margin-top: $spacer-3;
+      font-size: 1em;
+      font-style: italic;
+      font-weight: $font-weight-bold;
+    }
+
+    dd {
+      padding: 0 $spacer-3;
+      margin-bottom: $spacer-3;
+    }
+  }
+
+  font-family: $body-font;
+  font-size: $h4-size;
+  line-height: $body-line-height;
+  word-wrap: break-word;
+
+  // Clearfix on the markdown body
+  &::before {
+    display: table;
+    content: '';
+  }
+
+  &::after {
+    display: table;
+    clear: both;
+    content: '';
+  }
+
+  > *:first-child {
+    margin-top: 0 !important;
+  }
+
+  > *:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  // Anchors like <a name="examples">. These sometimes end up wrapped around
+  // text when users mistakenly forget to close the tag or use self-closing tag
+  // syntax. We don't want them to appear like links.
+  // FIXME: a:not(:link):not(:visited) would be a little clearer here (and
+  // possibly faster to match), but it breaks styling of <a href> elements due
+  // to https://bugs.webkit.org/show_bug.cgi?id=142737.
+  a:not([href]) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  // Link Colors
+  .absent {
+    color: var(--color-danger-fg);
+  }
+
+  .anchor {
+    float: left;
+    padding-right: $spacer-1;
+    // stylelint-disable-next-line primer/spacing
+    margin-left: -20px;
+    line-height: $lh-condensed-ultra;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  p,
+  blockquote,
+  ul,
+  ol,
+  dl,
+  table,
+  pre,
+  details {
+    margin-top: 0;
+    margin-bottom: $spacer-3;
+  }
+
+  hr {
+    height: $em-spacer-3;
+    padding: 0;
+    margin: $spacer-4 0;
+    background-color: var(--color-border-default);
+    border: 0;
+  }
+
+  blockquote {
+    // stylelint-disable-next-line primer/spacing
+    padding: 0 1em;
+    color: var(--color-fg-muted);
+    // stylelint-disable-next-line primer/borders
+    border-left: 0.25em $border-style var(--color-border-default);
+
+    > :first-child {
+      margin-top: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
 
   // Tables
   table {
@@ -78,25 +534,29 @@ $theme-code-inline-background: lighten($theme-black, 6%);
     max-width: 100%;
     overflow: auto;
 
-    //th {
-    //  font-weight: $font-weight-bold;
-    //}
+    th {
+      font-weight: $font-weight-bold;
+    }
 
     th,
     td {
       // stylelint-disable-next-line primer/spacing
-      //padding: 6px 13px;
-      // stylelint-disable-next-line primer/borders
-      //border: $border-width $border-style lighten($gray-300, 5%);
+      padding: 6px 13px;
+      border: $border-width $border-style var(--color-border-default);
+    }
+
+    td {
+      > :last-child {
+        margin-bottom: 0;
+      }
     }
 
     tr {
-      background-color: darken($theme-black, 5%);
-      // stylelint-disable-next-line primer/borders
-     // border-top: $border-width $border-style darken($gray-300, 4%);
+      background-color: var(--color-canvas-default);
+      border-top: $border-width $border-style var(--color-border-muted);
 
       &:nth-child(2n) {
-        background-color: $theme-black;
+        background-color: var(--color-canvas-subtle);
       }
     }
 
@@ -104,107 +564,4 @@ $theme-code-inline-background: lighten($theme-black, 6%);
       background-color: transparent;
     }
   }
-  
 }
-
-// TOASTS
-.toasts {
-  // fixed note
-  //font-size: $h4-size;
-  // mdl
-  //@include shadow-2dp();
-
-  .title {
-   // box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.14);
-  }
-
-  // fixed
-  .content {
-    :first-child {
-      margin-top: 0;
-    }
-
-    :last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  &.note {
-    background-color: darken($theme-blue, 30%);
-    a {
-      color: lighten($font-white, 4%);
-    }
-    .title {
-      background: darken($theme-blue, 20%);
-    }
-  }
-
-  &.tip {
-    background-color: darken($theme-green, 30%);
-
-    .title {
-      background: darken($theme-green, 10%);
-    }
-  }
-
-  &.warning {
-    background-color: darken($theme-orange, 40%);
-
-    .title {
-      background: darken($theme-orange, 20%);
-    }
-  }
-
-  &.danger {
-    background-color: darken($theme-red, 40%);
-
-    .title {
-      background: darken($theme-red, 20%);
-    }
-  }
-}
-// TOASTS
-
-:root {
-  @for $level from 1 through 12 {
-    @if $level % 4 == 0 {
-      color: lighten($font-white, 4%);
-      --toc-#{$level}: #{darken($theme-blue, 4 * 8.8%)};
-    } @else {
-      color: lighten($font-white, 4%);
-      --toc-#{$level}: #{darken($theme-blue, $level % 4 * 8.8%)};
-    }
-  }
-}
-.toctree {
-  a {
-    color: lighten($font-white, 4%);
-  }
-
-  > ul {
-    
-    // the first level links not current
-    > .toc:not(.current) > a {
-      &:hover {
-        background: $theme-mask-white;
-      }
-      &:active {
-        background: $theme-mask-white2;
-      }
-    }
-    
-    .toc.current {
-    // all expanded links
-      a {
-         color: lighten($font-white, 4%);
-       
-         &.current {
-           color: #404040;
-         }
-      }
-    }
-  }
-  
-}
-
-*/
